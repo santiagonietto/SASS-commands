@@ -1,0 +1,147 @@
+
+// npm install -g sass (INSTALAR SASS EN LA TERMINAL) 
+// sass --watch sass/stail.scss(ORIGEN) css/stilo.css(DESTINO) (ACTIVAR SASS EN EL SISTEMA) 
+// sass comment
+// sass tiene la funcion de poder anidar funciones a sus padres como en html
+// VARIABLES
+$papareseca: grey;
+// IMPORTS
+// podemos crear archivos scss dentro de la carpeta de sass donde poder organizar las etiquetas creadas 
+// para un mejor leccion de los estilos aplicados.
+//  ctrl + (tecla) /? ------ atajo de teclado para hacer un comentario de sass
+// con @extend se puede importar todas las propiedades de una etiqueta que querramos a otra etiqueta sin necesidad de escribir todas las propiedades de vuelta.
+// la propiedad del @extend tiene que estar declarada antes de usarla, y lo que se quiera cambiar tiene que estar por debajo de del @extend en la propiedad aplicada.
+
+
+@import "generales/_variables.scss";
+
+
+body{
+    background-color: $papareseca;
+}
+
+
+
+.bton-verde{
+    border: 2px solid black;
+    border-radius: 5px;
+    text-align: end;
+    background-color: black;
+    color: yellowgreen;
+}
+
+.bton-rojo{
+    @extend .bton-verde;
+    background-color: bisque;
+    color: red;
+}
+
+.bton-azul{
+    @extend .bton-rojo;
+    background-color: chocolate;
+    color: blue;
+}
+
+
+
+
+// mixin (sin parametros)
+@mixin flex-sin-parametros {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-self: flex-end;
+
+}
+.card{
+    @include flex-sin-parametros;
+}
+
+
+// mixin (con parametros)
+@mixin tamanio ( $ancho , $alto ){
+    width: $ancho;
+    height: $alto;
+}
+
+.logo{
+    @include tamanio( 20px , 10px )
+}
+
+
+@mixin flex-con-parametros ($direccion, $justify, $align){
+    display: flex;
+    flex-direction: $direccion;
+    justify-content: $justify;
+    align-items: $align;
+
+}
+
+.card{
+    @include flex-con-parametros(row, center , flex-end)
+}
+
+
+
+// if
+ 
+$vista: mobile;
+
+
+*{
+    @if $vista==mobile{
+        background-color: black;
+    }
+    @else if $vista==tablet{
+        background-color: yellowgreen;
+    }
+    @else{
+        background-color: darkorange;
+    }
+
+
+}
+
+
+
+// for
+// through (incluye)
+// to (corta antes)
+@for $i from 1 through 5{
+    .margin-#{$i}{
+        margin: 10px*$i;
+    }
+}
+
+
+
+// each
+@each $color in red, blue, green{
+    .font-#{$color}{
+        color: #{$color};
+        border-color: #{$color};
+    }
+}
+
+@each $foto in perro, gato, loro{
+    .img-#{$foto}{
+        background-image: url(../medios/#{$foto}.jpg);
+    }
+}
+
+
+
+// maps
+// es una variable con una coleccion de variables
+
+$letra:(
+    grande:  5rem,
+    medio:   3rem,
+    pequeno: 1rem,
+);
+
+@each $tamanio, $rem in $letra {
+    .font-#{$tamanio}{
+        font-size: $rem;
+    }
+}
